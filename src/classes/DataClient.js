@@ -27,6 +27,8 @@ class DataClient extends require('eris').Client {
    * @param {String} [options.sourceFolder]    Source folder to check for data folders such as commands (path from root).
    * @param {Object} [options.defaultSettings] Default values for settings.
    * @param {Object} [options.tables]          Additional database tables to create.
+   * @param {String} [options.dblToken]        Your bot's discordbots.org token.
+   * @param {String} [options.dblOptions]      DBL client options.
    */
   constructor (options = {}) {
     super(process.env.TOKEN, options)
@@ -55,6 +57,9 @@ class DataClient extends require('eris').Client {
      * @type {Status}
      */
     this.status = new Status()
+    if (options.dblToken) {
+      this.dbl = new (require('./DBL.js'))({ token: options.dblToken, options: options.dblOptions, client: this })
+    }
     /**
      * The command map.
      * @type {Map}
